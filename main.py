@@ -1,10 +1,6 @@
-# this allows us to use code from
-# the open-source pygame library
-# throughout this file
 import pygame
 import sys
 
-# Import all constants from our constants file
 from constants import *
 from player import Player
 from asteroid import Asteroid
@@ -59,6 +55,14 @@ def main():
             if player.collides_with(asteroid):
                 print("Game over!")
                 sys.exit()
+        
+        # Check for collisions between bullets and asteroids
+        for asteroid in asteroids:
+            for shot in shots:
+                if asteroid.collides_with(shot):
+                    # SPLITTING DESTRUCTION! 
+                    asteroid.split()  # This handles the splitting logic
+                    shot.kill()       # Remove the bullet
         
         # Fill screen with black
         screen.fill("black")
