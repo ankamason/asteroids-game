@@ -1,30 +1,48 @@
+# this allows us to use code from
+# the open-source pygame library
+# throughout this file
 import pygame
+import sys
 
+# Import all constants from our constants file
 from constants import *
 from player import Player
+from asteroid import Asteroid
+from asteroidfield import AsteroidField
+from shot import Shot
 
 def main():
     print("Starting Asteroids!")
     print(f"Screen width: {SCREEN_WIDTH}")
     print(f"Screen height: {SCREEN_HEIGHT}")
     
+    # Initialize pygame
     pygame.init()
     
+    # Create the game window
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     
+    # Create clock object for FPS control
     clock = pygame.time.Clock()
     
     # Initialize delta time
     dt = 0
     
+    # Create sprite groups for professional object management
     updatable = pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     
-    # Set up Player to automatically join both groups
+    # Set up automatic group membership
     Player.containers = (updatable, drawable)
+    Asteroid.containers = (asteroids, updatable, drawable)
+    AsteroidField.containers = (updatable,)
+    Shot.containers = (shots, updatable, drawable)
     
-    # Create the player - it will automatically join the groups!
+    # Create game objects
     player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+    asteroid_field = AsteroidField()
     
     # Game loop
     while True:
@@ -33,8 +51,14 @@ def main():
             if event.type == pygame.QUIT:
                 return
         
-        # Update ALL updatable objects with one line!
+        # Update ALL updatable objects
         updatable.update(dt)
+        
+        # Check for collisions between player and asteroids
+        for asteroid in asteroids:
+            if player.collides_with(asteroid):
+                print("Game over!")
+                sys.exit()
         
         # Fill screen with black
         screen.fill("black")
