@@ -30,6 +30,9 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
+
+        # Update the player (this is where input gets processed)
+        player.update(dt) 
         
         # Fill screen with black
         screen.fill("black")
