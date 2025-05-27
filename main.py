@@ -2,6 +2,8 @@
 import pygame
 
 from constants import *
+from player import Player
+
 
 def main():
     print("Starting Asteroids!")
@@ -20,6 +22,8 @@ def main():
    
     dt = 0
     
+    player = Player(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)
+
     # Game loop
     while True:
         # Handle events (like closing the window)
@@ -30,6 +34,10 @@ def main():
         # Fill screen with black
         screen.fill("black")
         
+        # Draw the player
+        player.draw(screen)
+
+
         # Refresh the display
         pygame.display.flip()
         
