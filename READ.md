@@ -12,8 +12,6 @@ python3 main.py
 
 Controls
 
-Coming soon!
-
 Features
 
  Game window
